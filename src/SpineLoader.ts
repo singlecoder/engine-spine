@@ -36,6 +36,10 @@ type SpineLoadItem = LoadItem & SpineOpt;
 // @ts-ignore
 @resourceLoader("spine", ["json", "bin"])
 class SpineLoader extends Loader<Entity> {
+  constructor() {
+    super(false);
+  }
+
   load(
     item: SpineLoadItem,
     resourceManager: ResourceManager
@@ -225,8 +229,7 @@ class SpineLoader extends Loader<Entity> {
       return false;
     }
 
-    const { skeletonFile, atlasFile } =
-      this.getResouceFromUrls(urls);
+    const { skeletonFile, atlasFile } = this.getResouceFromUrls(urls);
     if (skeletonFile && atlasFile) {
       return true;
     }

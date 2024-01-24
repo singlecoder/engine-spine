@@ -51,7 +51,7 @@ WebGLEngine.create({
 });
 
 async function loadSpine(root: Entity, engine: Engine) {
-  const [spineResource, spineResource1] = (await engine.resourceManager.load([
+  let spineResources = await engine.resourceManager.load([
     // {
     //   urls: [
     //     "https://g.alicdn.com/eva-assets/097c0a76532bab33724b9e6c308807a4/0.0.1/tmp/78b308e/9e57381c-cdd2-4e7f-8bc0-84af6e5269a9.json",
@@ -64,10 +64,10 @@ async function loadSpine(root: Entity, engine: Engine) {
       url: "https://mdn.alipayobjects.com/oasis_be/afts/file/A*B3sdQ5pnQnAAAAAAAAAAAAAADkp5AQ/Dragonballs.json",
       type: "spine",
     },
-    {
-      url: "https://mdn.alipayobjects.com/oasis_be/afts/file/A*Tg79QLxYDCQAAAAAAAAAAAAADkp5AQ/Lantern.json",
-      type: "spine",
-    },
+    // {
+    //   url: "https://mdn.alipayobjects.com/oasis_be/afts/file/A*Tg79QLxYDCQAAAAAAAAAAAAADkp5AQ/Lantern.json",
+    //   type: "spine",
+    // },
     // {
     //   url: "https://mmtcdp.stable.alipay.net/oasis_be/afts/file/A*5QEzTZ_dVlYAAAAAAAAAAAAADnN-AQ/spineboy.json",
     //   type: "spine",
@@ -95,9 +95,14 @@ async function loadSpine(root: Entity, engine: Engine) {
     //   ],
     //   type: "spine",
     // },
-  ])) as [Entity, Entity];
+  ]);
 
-  const parent = root.createChild("parent")
+  debugger;
+
+  let spineResource = spineResources[0] as Entity;
+  debugger;
+
+  const parent = root.createChild("parent");
   const spineEntity = parent.createChild("spine");
   spineEntity.transform.setPosition(0, -5, 0);
   const spineRenderer = spineEntity.addComponent(SpineRenderer);
@@ -105,8 +110,46 @@ async function loadSpine(root: Entity, engine: Engine) {
   // spineRenderer.loop = false;
   // spineRenderer.autoPlay = false;
   spineRenderer.resource = spineResource;
-  spineRenderer.priority = 100;
-  spineRenderer.animationName = "06";
+  debugger;
+  engine.resourceManager.gc();
+  // engine.resourceManager._deleteAsset(spineResource);
+  let spineResourcesNew = await engine.resourceManager.load([
+    {
+      url: "https://mdn.alipayobjects.com/oasis_be/afts/file/A*B3sdQ5pnQnAAAAAAAAAAAAAADkp5AQ/Dragonballs.json",
+      type: "spine",
+    },
+  ]);
+  debugger;
+  spineRenderer.resource = spineResourcesNew[0];
+
+  // spineRenderer.priority = 100;
+  // spineRenderer.animationName = "06";
+
+  // debugger;
+  // spineEntity.destroy();
+
+  // const spine1Entity = spineEntity.clone();
+  // parent.addChild(spine1Entity);
+  // setTimeout(() => {
+  //   console.log(engine.resourceManager);
+  // }, 1000);
+
+  // setTimeout(() => {
+  //   console.log(engine.resourceManager);
+  //   debugger;
+  //   // spineEntity.destroy();
+  //   // console.log(engine.resourceManager);
+  //   // spineResource.destroy();
+  //   // engine.resourceManager.gc();
+  // }, 5000);
+
+  // setTimeout(() => {
+  //   // spineResource.destroy();
+  //   // spineResource = null;
+  //   console.log(engine.resourceManager)
+  //   debugger;
+  //   engine.resourceManager.gc();
+  // }, 1000);
 
   // // 来回切父节点
   // const parent1 = root.createChild("parent1");
@@ -122,7 +165,7 @@ async function loadSpine(root: Entity, engine: Engine) {
   //   spineRenderer.animationName = "06";
   //   // spineRenderer.loop = false;
   // }, 3000);
-  
+
   // debugger;
   // spineRenderer.animationName = "06";
   // setTimeout(() => {
